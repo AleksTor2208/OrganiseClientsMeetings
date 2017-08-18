@@ -191,11 +191,28 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MeetingController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708172356279_InitialModel.cs" />
+    <Compile Include="Migrations\201708172356279_InitialModel.Designer.cs">
+      <DependentUpon>201708172356279_InitialModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708180022599_AddClientToDb.cs" />
+    <Compile Include="Migrations\201708180022599_AddClientToDb.Designer.cs">
+      <DependentUpon>201708180022599_AddClientToDb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708182205198_AddClientsAndRenameMeetings.cs" />
+    <Compile Include="Migrations\201708182205198_AddClientsAndRenameMeetings.Designer.cs">
+      <DependentUpon>201708182205198_AddClientsAndRenameMeetings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\Meeting.cs" />
+    <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -260,6 +277,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Meeting\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -275,6 +293,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201708172356279_InitialModel.resx">
+      <DependentUpon>201708172356279_InitialModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708180022599_AddClientToDb.resx">
+      <DependentUpon>201708180022599_AddClientToDb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708182205198_AddClientsAndRenameMeetings.resx">
+      <DependentUpon>201708182205198_AddClientsAndRenameMeetings.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
