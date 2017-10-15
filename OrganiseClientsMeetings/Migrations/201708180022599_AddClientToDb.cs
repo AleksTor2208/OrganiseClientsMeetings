@@ -13,13 +13,12 @@ namespace OrganiseClientsMeetings.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
-                        DateTime = c.DateTime(nullable: false),
+                        DateTime = c.String(nullable: true),
                         Payment = c.String(),
                         isRemote = c.Boolean(nullable: false),
                         Comment = c.String(),
                     })
-                .PrimaryKey(t => t.Id);
-            
+                .PrimaryKey(t => t.Id);            
         }
         
         public override void Down()

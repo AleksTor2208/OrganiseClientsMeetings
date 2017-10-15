@@ -13,7 +13,7 @@ namespace OrganiseClientsMeetings.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         ClientId = c.Int(nullable: false),
-                        DateTime = c.DateTime(nullable: false),
+                        DateTime = c.DateTime(nullable: true),
                         Payment = c.String(),
                         isRemote = c.String(),
                         Comment = c.String(),
