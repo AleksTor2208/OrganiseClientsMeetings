@@ -1,0 +1,34 @@
+﻿@model OrganiseClientsMeetings.ViewModel.MeetingViewModel
+
+@{
+    ViewBag.Title = "About";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<h2>Add a Gig</h2>
+@using (Html.BeginForm("AddMeeting", "Home"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.ClientName)
+        @Html.TextBoxFor(m => m.ClientName, new { @class = "form-control" })
+    </div>
+    @*<div class="form-group">
+        @Html.LabelFor(m => m.Time)
+        @Html.TextBoxFor(m => m.Time, new { @class = "form-control" })
+    </div>*@
+    <div class="form-group">
+        @Html.LabelFor(m => m.DateTime)
+        @Html.TextBoxFor(model => model.DateTime)
+        @Html.ValidationMessageFor(model => model.DateTime)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Payment)
+        @Html.TextBoxFor(m => m.Payment, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Address)
+        @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+}
