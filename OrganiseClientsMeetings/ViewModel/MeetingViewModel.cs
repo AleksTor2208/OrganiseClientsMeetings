@@ -9,11 +9,26 @@ namespace OrganiseClientsMeetings.ViewModel
     public class MeetingViewModel
     {
         public int Id { get; set; }
-        public string ClientName { get; set; }
-        [Required(ErrorMessage = "Enter the issued date.")]
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
         [DataType(DataType.Date)]
-        public DateTime DateTime { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime Date { get; set; }
+
+        [Required]
+        [DataType(DataType.Time)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:H:mm}")]
+        public DateTime Time { get; set; }
+
+        [Required]
         public string Payment { get; set; }
+
+        [Required]
         public string Address { get; set; }
+
+        [Required]
+        public string Comment { get; set; }
     }
 }
