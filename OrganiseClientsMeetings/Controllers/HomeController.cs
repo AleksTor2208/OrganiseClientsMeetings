@@ -30,10 +30,10 @@ namespace OrganiseClientsMeetings.Controllers
         [HttpPost]
         public ActionResult AddMeeting(MeetingViewModel viewModel)
         {
-            var clientId = AddClient(viewModel.ClientName);
+            var clientId = AddClient(viewModel.Name);
             var meeting = new Meeting
             {
-                DateTime = viewModel.DateTime.ToString(),
+                DateTime = viewModel.Date.ToString(),
                 Payment = viewModel.Payment,
                 ClientId = clientId,
                 Address = viewModel.Address
