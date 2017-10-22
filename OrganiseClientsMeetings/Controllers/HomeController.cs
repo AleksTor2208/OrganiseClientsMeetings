@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using OrganiseClientsMeetings.Models;
 using OrganiseClientsMeetings.ViewModel;
@@ -10,12 +11,13 @@ namespace OrganiseClientsMeetings.Controllers
         public readonly ApplicationDbContext _context;
 
         public HomeController()
-        {
+        {            
             _context = new ApplicationDbContext();
         }
         public ActionResult Index()
         {
-            return View();
+            var myData = _context.Meetings.Select(m => m).ToArray();
+            return View(myData);
         }
 
         public ActionResult AddMeeting()
