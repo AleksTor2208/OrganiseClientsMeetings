@@ -1,22 +1,55 @@
-﻿@model OrganiseClientsMeetings.Models.Meeting[]
+﻿@model IEnumerable<OrganiseClientsMeetings.Models.Meeting>
 
-@if (Model != null)
-{
-    <div class="container">
-        @foreach (var item in Model)
-        {
-        <div class="row">
-            <div class="col-md-3">
-                <p>@item.DateTime</p>
-            </div>
-            <div class="col-md-3">
-                <p>@item.ClientId</p>
-            </div>
-            <div class="col-md-3">
-                <p>@item.Address</p>
-            </div>
-        </div>
-        }
-    </div>
-    
+
+<table class="table" style="margin-top: 2em">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ClientId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Payment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isRemote)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comment)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ClientId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Payment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isRemote)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comment)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
 }
+
+</table>
