@@ -1,25 +1,24 @@
-﻿@model IEnumerable<OrganiseClientsMeetings.Models.Meeting>
-
+﻿@model IEnumerable<OrganiseClientsMeetings.ViewModel.MeetingViewModel>
 
 <table class="table" style="margin-top: 2em">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ClientId)
+            Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DateTime)
+            Day
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Payment)
+            Time
+        </th>
+        <th>
+            Price
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Address)
-        </th>
+        </th>        
         <th>
-            @Html.DisplayNameFor(model => model.isRemote)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Comment)
+            Additional Information
         </th>
         <th></th>
     </tr>
@@ -27,20 +26,20 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.ClientId)
+            @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DateTime)
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Time)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Payment)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.isRemote)
-        </td>
+        </td>        
         <td>
             @Html.DisplayFor(modelItem => item.Comment)
         </td>
