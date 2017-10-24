@@ -26,7 +26,7 @@ namespace OrganiseClientsMeetings.ViewModel
         public string Payment { get; set; }
 
         [Required]
-        public string Address { get; set; }
+        public string Address { get; set; }        
 
         [Required]
         public string Comment { get; set; }
