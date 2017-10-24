@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using OrganiseClientsMeetings.Models;
@@ -38,11 +39,28 @@ namespace OrganiseClientsMeetings.Controllers
                 ClientId = clientId,
                 Address = viewModel.Address
             };
+            if (System.Web.HttpContext.Current.Request.Files.AllKeys.Any())
+            {
+                var pic = System.Web.HttpContext.Current.Request.Files["HelpSectionImages"];
+            }
 
             _context.Meetings.Add(meeting);
             
             _context.SaveChanges();
             return Redirect("Index");
+        }
+
+        
+             [HttpPost]
+        public void Upload()
+        {
+            for (int i = 0; i < Request.Files.Count; i++)
+            {
+                var file = Request.Files[i];
+                var fileName = Path.GetFileName(file.FileName);
+                var path = Path.Combine(Server.MapPath("~/App_Data/"), fileName);
+                file.SaveAs(path);           
+            }
         }
 
         private int AddClient(string name)
