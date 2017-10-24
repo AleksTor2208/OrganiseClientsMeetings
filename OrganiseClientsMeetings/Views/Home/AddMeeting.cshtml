@@ -1,28 +1,58 @@
 ﻿@model OrganiseClientsMeetings.ViewModel.MeetingViewModel
 
 @{
-    ViewBag.Title = "About";
+    ViewBag.Title = "Add new meeting";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#imageUploadForm").change(function () {
+            var formData = new FormData();
+            var totalFiles = document.getElementById("imageUploadForm").files.length;
+            for (var i = 0; i < totalFiles; i++) {
+                var file = document.getElementById("imageUploadForm").files[i];
+                formData.append("imageUploadForm", file);
+            }
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Upload", "Home")",
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false
+                //success: function(response) {
+                //    alert('succes!!');
+                //},
+                //error: function(error) {
+                //    alert("errror");
+                //}
+            }).done(function () {
+                alert('success');
+            }).fail(function (xhr, status, errorThrown) {
+                alert('fail');
+            });            
+        });
+    });
+</script>
 
-<h2>Add a Gig</h2>
+
+<h2>@ViewBag.Title</h2>
 @using (Html.BeginForm("AddMeeting", "Home"))
 {
     <div class="form-group">
         @Html.LabelFor(m => m.Name)
         @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-    </div>   
+    </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Date)
         @Html.EditorFor(model => model.Date, new { @type = "date" })
         @Html.ValidationMessageFor(m => m.Date)
-    </div> 
+    </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Time)
         @Html.EditorFor(model => model.Time, new { @type = "date" })
         @Html.ValidationMessageFor(m => m.Time)
-    </div>  
+    </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Payment)
         @Html.TextBoxFor(m => m.Payment, new { @class = "form-control" })
@@ -35,5 +65,6 @@
         @Html.LabelFor(m => m.Comment)
         @Html.TextBoxFor(m => m.Comment, new { @class = "form-control" })
     </div>
+    <input type="file" id="imageUploadForm" name="image" multiple="multiple" />
    <button type="submit" class="btn btn-primary">Save</button>
 }
