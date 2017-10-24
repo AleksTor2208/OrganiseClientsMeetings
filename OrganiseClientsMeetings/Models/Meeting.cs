@@ -10,14 +10,11 @@ namespace OrganiseClientsMeetings.Models
     {
         public int Id { get; set; }
         public int ClientId { get; set; }              
-        public string DateTime { get; set; }
+        public string Date { get; set; }
+        public string Time { get; set; }
         public string Payment { get; set; }
         public string Address { get; set; }
-
-        /*
-          Change 'isRemote property into Addres class in next iteration
-         */
-        public string isRemote { get; set; }
+       
         public string Comment { get; set; }
 
         
