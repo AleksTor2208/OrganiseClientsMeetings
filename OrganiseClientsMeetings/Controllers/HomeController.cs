@@ -38,18 +38,11 @@ namespace OrganiseClientsMeetings.Controllers
                 Payment = viewModel.Payment,
                 ClientId = clientId,
                 Address = viewModel.Address
-            };
-            if (System.Web.HttpContext.Current.Request.Files.AllKeys.Any())
-            {
-                var pic = System.Web.HttpContext.Current.Request.Files["HelpSectionImages"];
-            }
-
-            _context.Meetings.Add(meeting);
-            
+            };         
+            _context.Meetings.Add(meeting);           
             _context.SaveChanges();
             return Redirect("Index");
         }
-
         
              [HttpPost]
         public void Upload()
