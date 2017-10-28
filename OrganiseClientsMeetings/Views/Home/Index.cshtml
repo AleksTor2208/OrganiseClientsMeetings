@@ -1,4 +1,6 @@
-﻿@model IEnumerable<OrganiseClientsMeetings.ViewModel.MeetingViewModel>
+﻿@using System.Drawing;
+
+@model IEnumerable<OrganiseClientsMeetings.ViewModel.MeetingViewModel>
 
 <table class="table" style="margin-top: 2em">
     <tr>
@@ -44,11 +46,41 @@
             @Html.DisplayFor(modelItem => item.Comment)
         </td>
         <td>
+            <a class="thumbnail"><img src="@Url.Content(item.Image)" alt="image" /></a>
+        </td>
+        <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#descriptionModal">
+                Description
+            </button>
+            <img src="data:image;base64,@item.Image" width="80" height="80" />
+
+            <div id="descriptionModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">@item.Name;</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>@item.Time</p>
+                        </div>
+                        <div class="modal-body">                            
+                            @*<p>@String.Format("data:image/gif;base64,{0}", item.Image);</p>*@
+                            @*<img src="@String.Format("data:image/gif;base64,{0}", item.Image);", alt="abc"/>*@
+                            <img src="data:image;base64,@item.Image" width="80" height="80" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div> |
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>
 }
 
 </table>
+@*<img src="~/Photos/14585462_1077518465657643_1623848509_n" alt="Flowers in Chania">
+<a class="thumbnail"><img src="@Url.Content("~/Photos/" + "14585462_1077518465657643_1623848509_n.jpg")" alt="image" /></a>*@
