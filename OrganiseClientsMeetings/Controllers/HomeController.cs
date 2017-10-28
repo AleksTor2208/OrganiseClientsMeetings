@@ -29,6 +29,7 @@ namespace OrganiseClientsMeetings.Controllers
             {
                 var viewModel = new MeetingViewModel()
                 {
+                    Id = item.Id,
                     Name = _context.Clients.Where(c => c.Id == item.ClientId).First().Name,
                     Date = item.Date,
                     Time = item.Time,
