@@ -62,11 +62,12 @@ namespace OrganiseClientsMeetings.Controllers
                 var imageByteArray = new byte[image.ContentLength];                
                 image.InputStream.Read(imageByteArray, 0, image.ContentLength);
                 base64String = Convert.ToBase64String(imageByteArray);
-            }               
-            
+            }
+
             var meeting = new Meeting
             {
                 Date = viewModel.Date.ToString(),
+                Time = viewModel.Time.ToString(),
                 Payment = viewModel.Payment,
                 ClientId = clientId,
                 Address = viewModel.Address,
