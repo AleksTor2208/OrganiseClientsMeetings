@@ -7,28 +7,25 @@ using System.Web;
 namespace OrganiseClientsMeetings.ViewModel
 {
     public class MeetingViewModel
-    {
+    {       
         public int Id { get; set; }
-        [Required]
+        
         public string Name { get; set; }
-
-        [Required]
+        
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime Date { get; set; }
-
-        [Required]
+        public string Date { get; set; }
+        
         [DataType(DataType.Time)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:H:mm}")]
-        public DateTime Time { get; set; }
-
-        [Required]
+        [DisplayFormat(DataFormatString = "{0:H:mm}", ApplyFormatInEditMode = true)]
+        public string Time { get; set; }
+        
         public string Payment { get; set; }
+        
+        public string Address { get; set; }     
 
-        [Required]
-        public string Address { get; set; }        
-
-        [Required]
         public string Comment { get; set; }
+
+        public string Image { get; set; }
     }
 }
