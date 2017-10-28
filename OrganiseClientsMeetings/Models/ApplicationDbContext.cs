@@ -7,6 +7,7 @@ namespace OrganiseClientsMeetings.Models
     {
         public DbSet<Meeting> Meetings { get; set; }
         public DbSet<Client> Clients { get; set; }
+        public DbSet<Photos> Photos { get; set; }
          
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
