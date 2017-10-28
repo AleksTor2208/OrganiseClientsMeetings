@@ -224,6 +224,10 @@
     <Compile Include="Migrations\201710241215212_AddImageIntoMeetings.Designer.cs">
       <DependentUpon>201710241215212_AddImageIntoMeetings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710281927560_AddPhotosTable.cs" />
+    <Compile Include="Migrations\201710281927560_AddPhotosTable.Designer.cs">
+      <DependentUpon>201710281927560_AddPhotosTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -231,6 +235,7 @@
     <Compile Include="Models\Meeting.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Photos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\MeetingViewModel.cs" />
@@ -333,6 +338,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710241215212_AddImageIntoMeetings.resx">
       <DependentUpon>201710241215212_AddImageIntoMeetings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710281927560_AddPhotosTable.resx">
+      <DependentUpon>201710281927560_AddPhotosTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
