@@ -37,34 +37,36 @@
 
 
 <h2>@ViewBag.Title</h2>
-@using (Html.BeginForm("AddMeeting", "Home"))
-{
-    <div class="form-group">
-        @Html.LabelFor(m => m.Name)
-        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Date)
-        @Html.EditorFor(model => model.Date, new { @type = "date" })
-        @Html.ValidationMessageFor(m => m.Date)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Time)
-        @Html.EditorFor(model => model.Time, new { @type = "date" })
-        @Html.ValidationMessageFor(m => m.Time)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Payment)
-        @Html.TextBoxFor(m => m.Payment, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Address)
-        @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Comment)
-        @Html.TextBoxFor(m => m.Comment, new { @class = "form-control" })
-    </div>
-    <input type="file" id="imageUploadForm" name="image" multiple="multiple" />
-   <button type="submit" class="btn btn-primary">Save</button>
-}
+<asp:Content ContentPlaceHolderID="MainContent" runat="server"><asp:Content ContentPlaceHolderID="MainContent" runat="server">
+    @using (Html.BeginForm("AddMeeting", "Home", FormMethod.Post,
+                                             new { enctype = "multipart/form-data" }))
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.Name)
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Date)
+            @Html.EditorFor(model => model.Date, new { @type = "date" })
+            @Html.ValidationMessageFor(m => m.Date)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Time)
+            @Html.EditorFor(model => model.Time, new { @type = "date" })
+            @Html.ValidationMessageFor(m => m.Time)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Payment)
+            @Html.TextBoxFor(m => m.Payment, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Address)
+            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Comment)
+            @Html.TextBoxFor(m => m.Comment, new { @class = "form-control" })
+        </div>        
+        <div>Upload new image: <input type="file" name="Image" /></div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    }
