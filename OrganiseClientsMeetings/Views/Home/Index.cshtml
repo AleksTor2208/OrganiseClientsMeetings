@@ -2,85 +2,70 @@
 
 @model IEnumerable<OrganiseClientsMeetings.ViewModel.MeetingViewModel>
 
-<table class="table" style="margin-top: 2em">
-    <tr>
-        <th>
-            Name
-        </th>
-        <th>
-            Day
-        </th>
-        <th>
-            Time
-        </th>
-        <th>
-            Price
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address)
-        </th>        
-        <th>
-            Additional Information
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Time)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Payment)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>        
-        <td>
-            @Html.DisplayFor(modelItem => item.Comment)
-        </td>
-        <td>
-            <a class="thumbnail"><img src="@Url.Content(item.Image)" alt="image" /></a>
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#descriptionModal">
-                Description
-            </button>
-            <img src="data:image;base64,@item.Image" width="80" height="80" />
-
-            <div id="descriptionModal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">@item.Name;</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>@item.Time</p>
-                        </div>
-                        <div class="modal-body">                            
-                            @*<p>@String.Format("data:image/gif;base64,{0}", item.Image);</p>*@
-                            @*<img src="@String.Format("data:image/gif;base64,{0}", item.Image);", alt="abc"/>*@
-                            <img src="data:image;base64,@item.Image" width="80" height="80" />
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
+<div class="table-responsive">
+    <table class="table table-condensed table-bordered">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Client</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+@foreach (var item in Model)
+{
+            <!-- Single event in a single day -->
+            <tr>
+                <td class="agenda-date" class="active" rowspan="1">
+                    <div class="dayofmonth">@item.Date.Substring(item.Date.Length - 2)</div>
+                    <div class="dayofweek">DayOfWeek</div>
+                    <div class="shortdate text-muted">@item.Date.Substring(0, item.Date.Length - 3)</div>
+                </td>
+                <td class="agenda-time">
+                    @item.Time
+                </td>
+                <td class="agenda-events">
+                    <div class="agenda-event">
+                        <i class="glyphicon glyphicon-repeat text-muted" title="Repeating event"></i>
+                        @item.Name
                     </div>
-                </div>
-            </div> |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#descriptionModal">
+                        Description
+                    </button>
+                    <img src="data:image;base64,@item.Image" width="80" height="80" />
 
-</table>
-@*<img src="~/Photos/14585462_1077518465657643_1623848509_n" alt="Flowers in Chania">
-<a class="thumbnail"><img src="@Url.Content("~/Photos/" + "14585462_1077518465657643_1623848509_n.jpg")" alt="image" /></a>*@
+                    <div id="descriptionModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">@item.Name;</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>@item.Time</p>
+                                </div>
+                                <div class="modal-body">
+                                    @*<p>@String.Format("data:image/gif;base64,{0}", item.Image);</p>*@
+                                    @*<img src="@String.Format("data:image/gif;base64,{0}", item.Image);", alt="abc"/>*@
+                                    <img src="data:image;base64,@item.Image" width="80" height="80" />
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+
+            <!-- Multiple events in a single day (note the rowspan) -->
+            
+}
+        </tbody>
+    </table>
+</div>
