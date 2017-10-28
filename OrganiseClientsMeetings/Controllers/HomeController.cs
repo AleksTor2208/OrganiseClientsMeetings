@@ -79,26 +79,10 @@ namespace OrganiseClientsMeetings.Controllers
 
         //private Image resizeImage(HttpPostedFileBase image, Size size)
         //{
-        //    //return (Image) new Bitmap(image, new Size(50, 50));
+        //    return (Image) new Bitmap(image, new Size(50, 50));
         //}
 
-        [HttpPost]
-        public void Upload()
-        {
-            for (int i = 0; i < Request.Files.Count; i++)
-            {
-                var file = Request.Files[i];
-                var fileName = Path.GetFileName(file.FileName);
-                var path = Path.Combine(Server.MapPath("~/Photos/"), fileName);                
-                file.SaveAs(path);                   
-            }
-        }
-
-        private string PassSetter(string path)
-        {
-            var strBuilder = new StringBuilder(path);
-            return "";
-        }
+        
 
         private int AddClient(string name)
         {
