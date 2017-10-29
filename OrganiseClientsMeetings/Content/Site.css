@@ -60,5 +60,9 @@ textarea {
 .agenda .agenda-events {
 }
 
-    .agenda .agenda-events .agenda-event {
-    } 
+.agenda .agenda-events .agenda-event {
+}
+
+#photo_2, #photo_3, #photo_4, #photo_5 {
+    display: none;
+}
