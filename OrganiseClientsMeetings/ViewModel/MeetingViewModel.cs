@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using OrganiseClientsMeetings.Models;
 
 namespace OrganiseClientsMeetings.ViewModel
 {
@@ -26,6 +27,8 @@ namespace OrganiseClientsMeetings.ViewModel
 
         public string Comment { get; set; }
 
-        public string Image { get; set; }
+        public int PhotoId { get; set; }
+
+        public List<string> Photos { get; set; }
     }
 }
