@@ -228,6 +228,10 @@
     <Compile Include="Migrations\201710281927560_AddPhotosTable.Designer.cs">
       <DependentUpon>201710281927560_AddPhotosTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710281949470_changeImageToPhotosId.cs" />
+    <Compile Include="Migrations\201710281949470_changeImageToPhotosId.Designer.cs">
+      <DependentUpon>201710281949470_changeImageToPhotosId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -341,6 +345,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710281927560_AddPhotosTable.resx">
       <DependentUpon>201710281927560_AddPhotosTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710281949470_changeImageToPhotosId.resx">
+      <DependentUpon>201710281949470_changeImageToPhotosId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
