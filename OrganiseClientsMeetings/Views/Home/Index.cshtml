@@ -1,7 +1,6 @@
 ﻿@using System.Drawing;
 
 @model IEnumerable<OrganiseClientsMeetings.ViewModel.MeetingViewModel>
-
 <div class="table-responsive">
     <table class="table table-condensed table-bordered">
         <thead>
@@ -13,10 +12,10 @@
             </tr>
         </thead>
         <tbody>
-@foreach (var item in Model)
-{
+            @foreach (var item in Model)
+            {
             <!-- Single event in a single day -->
-            <tr>
+              <tr>
                 <td class="agenda-date" class="active" rowspan="1">
                     <div class="dayofmonth">@item.Date.Substring(item.Date.Length - 2)</div>
                     <div class="dayofweek">DayOfWeek</div>
@@ -33,8 +32,8 @@
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    <button type="button" style="cursor: pointer;" class="btn btn-success btn-lg" data-toggle="modal" data-target="#descriptionModal_@item.Id">
-                        Description
+                    <button type="button" style="cursor: pointer;" class="btn btn-default btn-lg" data-toggle="modal" data-target="#descriptionModal_@item.Id">
+                        Details
                     </button>                   
 
                     <div id="descriptionModal_@item.Id" class="modal fade" role="dialog">
@@ -42,28 +41,62 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">@item.Name;</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <p>@item.Time</p>
-                                </div>
-                                <div class="modal-body">
-                                    @*<p>@String.Format("data:image/gif;base64,{0}", item.Image);</p>*@
-                                    @*<img src="@String.Format("data:image/gif;base64,{0}", item.Image);", alt="abc"/>*@
-                                    <img src="data:image;base64,@item.Image" width="80" height="80" />
+                                    <h4 class="modal-title">@item.Name</h4>
+                                </div>                                
+                                <div class="modal-body">                                   
+                                    @*start carousel*@
+
+                                    <div class='row'>
+                                        <div class='col-md-12'>
+                                            <div class="carousel slide media-carousel" id="media">
+                                                <div class="carousel-inner">
+                                                    @{
+                                                        var list = item.Photos as IList<string>;
+                                                        var items = list.Take(5);
+                                                        var iterations = 0;
+                                                    }
+                                                    @while (items.Count() > 0)
+                                        {
+                                                      var active = iterations == 0 ? "active" : "";
+
+                                                        <div class="item @active">
+                                                            <div class="row">
+                                                                @foreach (var photo in item.Photos)
+                                                                {
+                                                                    <div class="col-md-2">
+                                                                        <a class="thumbnail" href="#"><img src="data:image;base64,@photo" width="100" height="100"></a>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        </div>
+
+                                                        iterations++;
+                                                        items = list.Skip(6 * iterations).Take(6);
+                                                    }
+                                                </div>
+                                                <a data-slide="prev" href="#media" class="left carousel-control">‹</a>
+                                                <a data-slide="next" href="#media" class="right carousel-control">›</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                      
+                                    @*end carousel*@
+
+                                    @*<img src="data:image;base64,@item.Image" width="80" height="80" />*@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
-                    </div> |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                     </div> |
+                  
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@                
                 </td>
-            </tr>
 
             <!-- Multiple events in a single day (note the rowspan) -->
-            
+        </tr>
 }
         </tbody>
     </table>
