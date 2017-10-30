@@ -232,6 +232,14 @@
     <Compile Include="Migrations\201710281949470_changeImageToPhotosId.Designer.cs">
       <DependentUpon>201710281949470_changeImageToPhotosId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710292116396_AddDataAnnotationsMig.cs" />
+    <Compile Include="Migrations\201710292116396_AddDataAnnotationsMig.Designer.cs">
+      <DependentUpon>201710292116396_AddDataAnnotationsMig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710292123279_AddDataAnnotationsMig1.cs" />
+    <Compile Include="Migrations\201710292123279_AddDataAnnotationsMig1.Designer.cs">
+      <DependentUpon>201710292123279_AddDataAnnotationsMig1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -348,6 +356,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710281949470_changeImageToPhotosId.resx">
       <DependentUpon>201710281949470_changeImageToPhotosId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710292116396_AddDataAnnotationsMig.resx">
+      <DependentUpon>201710292116396_AddDataAnnotationsMig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710292123279_AddDataAnnotationsMig1.resx">
+      <DependentUpon>201710292123279_AddDataAnnotationsMig1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
