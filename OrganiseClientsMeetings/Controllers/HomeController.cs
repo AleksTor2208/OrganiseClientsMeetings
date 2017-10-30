@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using OrganiseClientsMeetings.Models;
 using OrganiseClientsMeetings.ViewModel;
 
@@ -98,9 +99,7 @@ namespace OrganiseClientsMeetings.Controllers
         //{
         //    return (Image) new Bitmap(image, new Size(50, 50));
         //}
-
-
-
+        
         private int AddClient(string name)
         {
             var client = new Client
@@ -110,6 +109,17 @@ namespace OrganiseClientsMeetings.Controllers
             _context.Clients.Add(client);
             _context.SaveChanges();
             return client.Id;
+        }
+
+        public void CheckTimeAvailability(string Time, string Date)
+        {
+            var meetingData = _context.Meetings.Select(m => m).ToArray();
+            var res = "res";
+            foreach (var meeting in meetingData)
+            {
+
+            }
+            Response.Write(res);
         }
     }
 }
