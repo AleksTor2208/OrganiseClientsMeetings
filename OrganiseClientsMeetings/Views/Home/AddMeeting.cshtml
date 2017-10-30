@@ -35,11 +35,37 @@
     });
 </script>
 
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/globalize.js"></script>
+    <script src="~/Scripts/globalize.culture.fr-FR.js"></script>
+    <script>
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) ||
+                !isNaN(Globalize.parseFloat(value));
+        }
+        $(document).ready(function () {
+            Globalize.culture('fr-FR');
+        });
+    </script>
+    <script>
+        jQuery.extend(jQuery.validator.methods, {
+            range: function (value, element, param) {
+                //Use the Globalization plugin to parse the value
+                var val = $.global.parseFloat(value);
+                return this.optional(element) || (
+                    val >= param[0] && val <= param[1]);
+            }
+        });
+
+    </script>
+}
+
 
 <h2>@ViewBag.Title</h2>
 <asp:Content ContentPlaceHolderID="MainContent" runat="server"><asp:Content ContentPlaceHolderID="MainContent" runat="server">
     @using (Html.BeginForm("AddMeeting", "Home", FormMethod.Post,
-                                             new { enctype = "multipart/form-data" }))
+                                             new { id = "meetingForm", enctype = "multipart/form-data" }))
     {
         <div class="form-group">
             @Html.LabelFor(m => m.Name)
@@ -55,6 +81,12 @@
             @Html.EditorFor(model => model.Time, new { @type = "date" })
             @Html.ValidationMessageFor(m => m.Time)
         </div>
+
+        <button type="button" class="btn btn-info" id="check_availability">Check Availability</button>
+        <div id="date_not_available_info" class="alert alert-warning">
+            <h4>You already have client for this time.</h4>
+        </div>
+
         <div class="form-group">
             @Html.LabelFor(m => m.Payment)
             @Html.TextBoxFor(m => m.Payment, new { @class = "form-control" })
@@ -91,10 +123,35 @@
 
     <script>
         //document.getElementsByClassName("additional-photos").onclick = function () { MakeNextVisible(this) };
+        $(function () {
+            $("#check_availability").click(function (e) {
+                var form = $("#meetingForm").serialize();
+                console.log(form);
+                var myData = [{ Time: form }];
+                var status = '';
+            $.ajax({
+                url: "@Url.Action("CheckTimeAvailability", "Home")",
+                type: "GET",
+                dataType: "text/html",
+                contentType: 'application/json',
+                data: form,
+                success: function (resp, status, xhr) {
+                    status = resp.result;
+                    alert(msg);
+                    console.log(response);
+                },
+                error: function (textStatus) {
+                    alert(textStatus); 
+                }
+                });
+            alert(status);
+            console.log("status is:"+status);
+        });
+    })
 
-        function MakeNextVisible(element) {             
-            var idNumber = parseInt(element.id.slice(-1))+1;           
-            var nextId = "photo_" + idNumber;           
+        function MakeNextVisible(element) {
+            var idNumber = parseInt(element.id.slice(-1))+1;
+            var nextId = "photo_" + idNumber;
             document.getElementById(nextId).style.display = "block";
         }
     </script>
