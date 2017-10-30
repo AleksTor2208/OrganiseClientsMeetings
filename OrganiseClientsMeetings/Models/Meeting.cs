@@ -9,12 +9,23 @@ namespace OrganiseClientsMeetings.Models
     public class Meeting
     {
         public int Id { get; set; }
-        public int ClientId { get; set; }              
+        public int ClientId { get; set; } 
+        
+        [Required]
         public string Date { get; set; }
+
+        [Required]
         public string Time { get; set; }
+
+        [Required]
+        [Range(1, 10000)]
         public string Payment { get; set; }
+
+        [Required]
+        [StringLength(150)]
         public string Address { get; set; }
-       
+
+        [StringLength(1000)]
         public string Comment { get; set; }
         public int PhotosId { get; set; }
     }
