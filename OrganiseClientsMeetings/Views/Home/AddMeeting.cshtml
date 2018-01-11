@@ -4,63 +4,6 @@
     ViewBag.Title = "Add new meeting";
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#imageUploadForm").change(function () {
-            var formData = new FormData();
-            var totalFiles = document.getElementById("imageUploadForm").files.length;
-            for (var i = 0; i < totalFiles; i++) {
-                var file = document.getElementById("imageUploadForm").files[i];
-                formData.append("imageUploadForm", file);
-            }
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("Upload", "Home")",
-                data: formData,
-                dataType: 'json',
-                contentType: false,
-                processData: false
-                //success: function(response) {
-                //    alert('succes!!');
-                //},
-                //error: function(error) {
-                //    alert("errror");
-                //}
-            }).done(function () {
-                alert('success');
-            }).fail(function (xhr, status, errorThrown) {
-                alert('fail');
-            });            
-        });
-    });
-</script>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script src="~/Scripts/globalize.js"></script>
-    <script src="~/Scripts/globalize.culture.fr-FR.js"></script>
-    <script>
-        $.validator.methods.number = function (value, element) {
-            return this.optional(element) ||
-                !isNaN(Globalize.parseFloat(value));
-        }
-        $(document).ready(function () {
-            Globalize.culture('fr-FR');
-        });
-    </script>
-    <script>
-        jQuery.extend(jQuery.validator.methods, {
-            range: function (value, element, param) {
-                //Use the Globalization plugin to parse the value
-                var val = $.global.parseFloat(value);
-                return this.optional(element) || (
-                    val >= param[0] && val <= param[1]);
-            }
-        });
-
-    </script>
-}
-
 
 <h2>@ViewBag.Title</h2>
 <asp:Content ContentPlaceHolderID="MainContent" runat="server"><asp:Content ContentPlaceHolderID="MainContent" runat="server">
@@ -74,17 +17,24 @@
         <div class="form-group">
             @Html.LabelFor(m => m.Date)
             @Html.EditorFor(model => model.Date, new { @type = "date" })
-            @Html.ValidationMessageFor(m => m.Date)
+            @*@Html.ValidationMessageFor(m => m.Date)*@
         </div>
         <div class="form-group">
-            @Html.LabelFor(m => m.Time)
-            @Html.EditorFor(model => model.Time, new { @type = "date" })
-            @Html.ValidationMessageFor(m => m.Time)
+            @Html.LabelFor(m => m.StartTime)
+            @Html.EditorFor(model => model.StartTime, new { @type = "date" })
+            @*@Html.ValidationMessageFor(m => m.STime)*@
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.EndTime)
+            @Html.EditorFor(model => model.EndTime, new { @type = "date" })
         </div>
 
-        <button type="button" class="btn btn-info" id="check_availability">Check Availability</button>
+        <button type="button" class="btn btn-warning" id="check_availability">Check Availability</button>
         <div id="date_not_available_info" class="alert alert-warning">
             <h4>You already have client for this time.</h4>
+        </div>
+        <div id="date_is_available_info" class="alert alert-success" role="alert">
+            <h4>Time is Available.</h4>
         </div>
 
         <div class="form-group">
@@ -99,59 +49,78 @@
             @Html.LabelFor(m => m.Comment)
             @Html.TextBoxFor(m => m.Comment, new { @class = "form-control" })
         </div>
-        <div id="photo_1" onclick="MakeNextVisible(this)">
-            <div>Upload new image: <input type="file" name="files" id="file1" /></div>            
-            <p class="add_more_photo">Add more photos</p>
+        <div id="photo_1" >
+            <div><p id="upload_1">Upload new image: </p><input type="file" name="files" id="file1" /></div>            
+            <p class="add_more_photo" id="add_1" onclick="MakeNextVisible(this)">Add more photos</p>
         </div>
-        <div id="photo_2" onclick="MakeNextVisible(this)">
-            <div>Upload new image: <input type="file" name="files" id="file2" /></div>
-            <p class="add_more_photo">Add more photos</p>
+        <div id="photo_2" >
+            <div><p id="upload_2">Upload new image: </p><input type="file" name="files" id="file2" /></div>
+            <p class="add_more_photo" id="add_2" onclick="MakeNextVisible(this)">Add more photos</p>
         </div>
-        <div id="photo_3" onclick="MakeNextVisible(this)">
-            <div>Upload new image: <input type="file" name="files" id="file3" /></div>
-            <p class="add_more_photo">Add more photos</p>
+        <div id="photo_3">
+            <div><p id="upload_3">Upload new image: </p><input type="file" name="files" id="file3" /></div>
+            <p class="add_more_photo" id="add_3" onclick="MakeNextVisible(this)">Add more photos</p>
         </div>
         <div id="photo_4" onclick="MakeNextVisible(this)">
-            <div>Upload new image: <input type="file" name="files" id="file4" /></div>
-            <p class="add_more_photo">Add more photos</p>
+            <div><p id="upload_4">Upload new image: </p><input type="file" name="files" id="file4" /></div>
+            <p class="add_more_photo" id="add_4" onclick="MakeNextVisible(this)">Add more photos</p>
         </div>
         <div id="photo_5" onclick="MakeNextVisible(this)">
-            <div>Upload new image: <input type="file" name="files" id="file5" /></div>            
+            <div><p id="upload_5">Upload new image: </p> <input type="file" name="files" id="file5" /></div>            
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
-    }
+     }
 
     <script>
         //document.getElementsByClassName("additional-photos").onclick = function () { MakeNextVisible(this) };
         $(function () {
             $("#check_availability").click(function (e) {
                 var form = $("#meetingForm").serialize();
-                console.log(form);
-                var myData = [{ Time: form }];
-                var status = '';
+                //console.log(form);                         
             $.ajax({
                 url: "@Url.Action("CheckTimeAvailability", "Home")",
                 type: "GET",
-                dataType: "text/html",
+                //dataType: "text/html",
                 contentType: 'application/json',
                 data: form,
-                success: function (resp, status, xhr) {
-                    status = resp.result;
-                    alert(msg);
-                    console.log(response);
+                success: function (resp, status, xhr) {                           
+                    var responseResult = xhr.responseText;
+                    if (responseResult == "False") {
+                        SendNoAvailableInfo();
+                    }
+                    if (responseResult == "True") {
+                        SendIsAvailaleInfo();
+                    }
                 },
-                error: function (textStatus) {
-                    alert(textStatus); 
+                error: function (textStatus) {                    
+                    console.log(textStatus);
                 }
-                });
-            alert(status);
-            console.log("status is:"+status);
-        });
-    })
+                });                 
+            });
+        })
 
-        function MakeNextVisible(element) {
-            var idNumber = parseInt(element.id.slice(-1))+1;
+        function MakeNextVisible(element)
+        {            
+            var idNumber = parseInt(element.id.slice(-1)) + 1;
+            if (idNumber >= 5) {  idNumber = 5}
             var nextId = "photo_" + idNumber;
+            var previousId = idNumber - 1;
+            var addId = "add_" + previousId;
+            var uploadId = "upload_" + previousId;
             document.getElementById(nextId).style.display = "block";
+            document.getElementById(uploadId).style.display = "none";
+            document.getElementById(addId).style.display = "none";            
+        }
+
+        function SendNoAvailableInfo()
+        {
+            document.getElementById("date_is_available_info").style.display = "none";
+            document.getElementById("date_not_available_info").style.display = "block";               
+        }
+
+        function SendIsAvailaleInfo()
+        {
+            document.getElementById("date_not_available_info").style.display = "none";
+            document.getElementById("date_is_available_info").style.display = "block";
         }
     </script>
