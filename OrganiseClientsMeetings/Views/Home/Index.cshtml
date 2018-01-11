@@ -22,7 +22,11 @@
                     <div class="shortdate text-muted">@item.Date.Substring(0, item.Date.Length - 3)</div>
                 </td>
                 <td class="agenda-time">
-                    @item.Time
+                    @{ 
+                        var timeBuilder = new System.Text.StringBuilder(); 
+                     }
+                    @timeBuilder.Append($"{item.StartTime} - {item.EndTime}")
+                    <p>@Html.Raw(timeBuilder.ToString())</p>                    
                 </td>
                 <td class="agenda-events">
                     <div class="agenda-event">
@@ -34,8 +38,8 @@
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                     <button type="button" style="cursor: pointer;" class="btn btn-default btn-lg" data-toggle="modal" data-target="#descriptionModal_@item.Id">
                         Details
-                    </button>                   
-
+                    </button> 
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id})
                     <div id="descriptionModal_@item.Id" class="modal fade" role="dialog">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -43,9 +47,7 @@
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     <h4 class="modal-title">@item.Name</h4>
                                 </div>                                
-                                <div class="modal-body">                                   
-                                    @*start carousel*@
-
+                                <div class="modal-body">                                                       
                                     <div class='row'>
                                         <div class='col-md-12'>
                                             <div class="carousel slide media-carousel" id="media">
