@@ -18,5 +18,7 @@ namespace OrganiseClientsMeetings.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<OrganiseClientsMeetings.ViewModel.MeetingViewModel> MeetingViewModels { get; set; }
     }
 }
