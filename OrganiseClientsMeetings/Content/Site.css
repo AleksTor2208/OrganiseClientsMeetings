@@ -23,10 +23,6 @@ textarea {
     max-width: 280px;
 }
 
-.agenda {
-}
-
-
 /* Dates */
 .agenda .agenda-date {
     width: 170px;
@@ -55,14 +51,12 @@ textarea {
     width: 140px;
 }
 
-
-/* Events */
-.agenda .agenda-events {
-}
-
-.agenda .agenda-events .agenda-event {
-}
-
 #photo_2, #photo_3, #photo_4, #photo_5 {
+    display: none;
+}
+
+#date_not_available_info,
+#date_is_available_info{
+    margin-top: 1em;
     display: none;
 }
