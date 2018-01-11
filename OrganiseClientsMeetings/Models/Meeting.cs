@@ -15,7 +15,10 @@ namespace OrganiseClientsMeetings.Models
         public string Date { get; set; }
 
         [Required]
-        public string Time { get; set; }
+        public string StartTime { get; set; }
+
+        [Required]
+        public string EndTime { get; set; }
 
         [Required]
         [Range(1, 10000)]
@@ -27,6 +30,7 @@ namespace OrganiseClientsMeetings.Models
 
         [StringLength(1000)]
         public string Comment { get; set; }
+
         public int PhotosId { get; set; }
     }
 }
