@@ -11,6 +11,7 @@ namespace OrganiseClientsMeetings.ViewModel
     {       
         public int Id { get; set; }
         
+        [Display(Name="Name")]
         public string Name { get; set; }
         
         [DataType(DataType.Date)]
@@ -19,8 +20,12 @@ namespace OrganiseClientsMeetings.ViewModel
         
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:H:mm}", ApplyFormatInEditMode = true)]
-        public string Time { get; set; }
-        
+        public string StartTime { get; set; }
+
+        [DataType(DataType.Time)]
+        [DisplayFormat(DataFormatString = "{0:H:mm}", ApplyFormatInEditMode = true)]
+        public string EndTime { get; set; }
+
         public string Payment { get; set; }
         
         public string Address { get; set; }     
