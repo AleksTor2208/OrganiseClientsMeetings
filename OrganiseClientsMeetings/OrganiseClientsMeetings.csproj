@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OrganiseClientsMeetings</RootNamespace>
     <AssemblyName>OrganiseClientsMeetings</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -26,6 +26,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <Use64BitIISExpress />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -193,6 +194,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MeetingController.cs" />
+    <Compile Include="ExtensionMethods\DateTimeExtension.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -232,18 +234,23 @@
     <Compile Include="Migrations\201710281949470_changeImageToPhotosId.Designer.cs">
       <DependentUpon>201710281949470_changeImageToPhotosId.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201710292116396_AddDataAnnotationsMig.cs" />
-    <Compile Include="Migrations\201710292116396_AddDataAnnotationsMig.Designer.cs">
-      <DependentUpon>201710292116396_AddDataAnnotationsMig.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201710292123279_AddDataAnnotationsMig1.cs" />
     <Compile Include="Migrations\201710292123279_AddDataAnnotationsMig1.Designer.cs">
       <DependentUpon>201710292123279_AddDataAnnotationsMig1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711091203028_AddEndDateProperty.cs" />
+    <Compile Include="Migrations\201711091203028_AddEndDateProperty.Designer.cs">
+      <DependentUpon>201711091203028_AddEndDateProperty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711221252002_NewmigrationAfterCreateEditView.cs" />
+    <Compile Include="Migrations\201711221252002_NewmigrationAfterCreateEditView.Designer.cs">
+      <DependentUpon>201711221252002_NewmigrationAfterCreateEditView.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\DateRange.cs" />
     <Compile Include="Models\Meeting.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -309,6 +316,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -357,11 +365,14 @@
     <EmbeddedResource Include="Migrations\201710281949470_changeImageToPhotosId.resx">
       <DependentUpon>201710281949470_changeImageToPhotosId.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201710292116396_AddDataAnnotationsMig.resx">
-      <DependentUpon>201710292116396_AddDataAnnotationsMig.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710292123279_AddDataAnnotationsMig1.resx">
       <DependentUpon>201710292123279_AddDataAnnotationsMig1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711091203028_AddEndDateProperty.resx">
+      <DependentUpon>201711091203028_AddEndDateProperty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711221252002_NewmigrationAfterCreateEditView.resx">
+      <DependentUpon>201711221252002_NewmigrationAfterCreateEditView.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
