@@ -60,8 +60,16 @@ namespace OrganiseClientsMeetings.Controllers
         [HttpPost]
         public ActionResult AddMeeting(MeetingViewModel viewModel, IEnumerable<HttpPostedFileBase> files)
         {
+            var startTime = DateTime.Parse(viewModel.StartTime);
+            var endTime = DateTime.Parse(viewModel.EndTime);
+
+            if (!IsTimeCorrectOrder(viewModel) && IsDurationLT5Min(startTime, endTime))
+            {
+                return Redirect("AddMeeting");
+            }
             if (!RequiredDateNotNull(viewModel) && !IsTimeCorrectOrder(viewModel))
-                return Redirect("AddMeeting");                  
+                return Redirect("AddMeeting");  
+            
             var clientId = AddClient(viewModel.Name);
             var photosId = AddPhotos(files);
 
@@ -82,6 +90,13 @@ namespace OrganiseClientsMeetings.Controllers
             _context.Meetings.Add(meeting);           
             _context.SaveChanges();
             return Redirect("Index");
+        }
+
+        private bool IsDurationLT5Min(DateTime startTime, DateTime endTime)
+        {
+            var minTimeSpan = 5;
+            var timeSpan = endTime - startTime;
+            return timeSpan.TotalMinutes < minTimeSpan;
         }
 
         private bool IsTimeCorrectOrder(MeetingViewModel viewModel)
