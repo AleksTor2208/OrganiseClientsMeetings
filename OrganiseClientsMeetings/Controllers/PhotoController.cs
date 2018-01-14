@@ -34,7 +34,7 @@ namespace OrganiseClientsMeetings.Controllers
             return imageList;
         }
 
-        internal static int AddPhotoAndGetId(string imageAsBase64, ApplicationDbContext context)
+        internal static int AddPhotoToDBAndGetId(string imageAsBase64, ApplicationDbContext context)
         {
             var photo = new Photo
             {
@@ -54,6 +54,26 @@ namespace OrganiseClientsMeetings.Controllers
             };
             context.PhotosList.Add(photoListInstance);
             context.SaveChanges();
+        }
+
+        public static int[] SaveAndGetId(IEnumerable<HttpPostedFileBase> files, ApplicationDbContext context)
+        {
+            var photosList = GetPhotosList(files);
+            int[] photoIdArray = new int[photosList.Count];
+
+            for (int i = 0; i < photosList.Count; i++)
+            {
+                photoIdArray[i] = AddPhotoToDBAndGetId(photosList[i], context);
+            }
+            return photoIdArray;
+        }
+
+        public static void SavePhotoListInstance(ApplicationDbContext context, int meetingId, int[] photoIdArray)
+        {
+            for (int i = 0; i < photoIdArray.Length; i++)
+            {
+                PhotoController.AddPhotoListInstance(context, meetingId, photoIdArray[i]);
+            }
         }
     }
 }
