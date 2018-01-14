@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using Newtonsoft.Json;
 using OrganiseClientsMeetings.Models;
 using OrganiseClientsMeetings.ViewModel;
 
@@ -29,13 +25,7 @@ namespace OrganiseClientsMeetings.Controllers
             List<MeetingViewModel> data = new List<MeetingViewModel>();
             foreach (var meeting in meetingData)
             {
-                //    var photos = _context.Photos.Where(p => p.Id == item.PhotosId).ToList()[0];
-                //    var photosList = new List<string> { photos.Photo1,
-                //        photos.Photo2, photos.Photo3,
-                //        photos.Photo4, photos.Photo5 };
-
                 var photosList = GetPhotosofCurrMeeting(meeting.Id, _context);
-
                 var viewModel = new MeetingViewModel()
                 {
                     Id = meeting.Id,
@@ -49,7 +39,6 @@ namespace OrganiseClientsMeetings.Controllers
                     Photos = photosList
                 };
                 data.Add(viewModel);
-                //ViewBag.Image = Image.FromStream(new MemoryStream(Convert.FromBase64String(item.Image)));
             }
             return View(data);
         }
@@ -57,7 +46,6 @@ namespace OrganiseClientsMeetings.Controllers
         private List<string> GetPhotosofCurrMeeting(int meetingId, ApplicationDbContext context)
         {
             var photoIdList = context.PhotosList.Where(p => p.MeetingId == meetingId);
-
             var photoList = new List<string>();
             foreach (var item in photoIdList)
             {
@@ -66,8 +54,6 @@ namespace OrganiseClientsMeetings.Controllers
             }
             return photoList;
         }
-
-       
 
         public ActionResult AddMeeting()
         {
@@ -78,16 +64,9 @@ namespace OrganiseClientsMeetings.Controllers
         [HttpPost]
         public ActionResult AddMeeting(MeetingViewModel viewModel, IEnumerable<HttpPostedFileBase> files)
         {
-            var startTime = DateTime.Parse(viewModel.StartTime);
-            var endTime = DateTime.Parse(viewModel.EndTime);
-
-            if (!IsTimeCorrectOrder(viewModel) && IsDurationLT5Min(startTime, endTime))
-            {
+            if (ViewModelIsInvalid(viewModel))
                 return Redirect("AddMeeting");
-            }
-            if (!RequiredDateNotNull(viewModel) && !IsTimeCorrectOrder(viewModel))
-                return Redirect("AddMeeting");  
-            
+           
             var clientId = AddClient(viewModel.Name);
             var photosList = GetPhotosList(files);
             int[] photoIdArray = new int[photosList.Count];
@@ -105,6 +84,20 @@ namespace OrganiseClientsMeetings.Controllers
                 AddPhotoListInstance(_context, meetingId, photoIdArray[i]);
             }
             return Redirect("Index");
+        }
+
+        private bool ViewModelIsInvalid(MeetingViewModel viewModel)
+        {
+            if (!RequiredDateNotNull(viewModel))
+                return true;
+
+            var startTime = DateTime.Parse(viewModel.StartTime);
+            var endTime = DateTime.Parse(viewModel.EndTime);
+            if (!IsTimePassedCorrectly(startTime, endTime))
+            {
+                return true;
+            }
+            return false;
         }
 
         private void AddPhotoListInstance(ApplicationDbContext context, int meetingId, int photoId)
@@ -146,21 +139,12 @@ namespace OrganiseClientsMeetings.Controllers
             return photo.PhotoId;
         }
 
-        private bool IsDurationLT5Min(DateTime startTime, DateTime endTime)
+        private bool IsTimePassedCorrectly(DateTime startTime, DateTime endTime)
         {
+            var isProperOrder = DateTime.Compare(startTime, endTime) < 0;
             var minTimeSpan = 5;
             var timeSpan = endTime - startTime;
-            return timeSpan.TotalMinutes < minTimeSpan;
-        }
-
-        private bool IsTimeCorrectOrder(MeetingViewModel viewModel)
-        {
-            DateTime startTime;
-            DateTime endTime;
-            if (!DateTime.TryParse(viewModel.StartTime, out startTime)
-                || !DateTime.TryParse(viewModel.EndTime, out endTime)) return false;
-            var isProperOrder = DateTime.Compare(startTime, endTime);
-            return isProperOrder < 0;
+            return timeSpan.TotalMinutes > minTimeSpan && isProperOrder;
         }
 
         private bool RequiredDateNotNull(MeetingViewModel viewModel)
@@ -240,7 +224,6 @@ namespace OrganiseClientsMeetings.Controllers
             var meeting = _context.Meetings.First(m => m.Id == id);
             var client = _context.Clients.First(c => c.Id == meeting.ClientId);
             var photos = _context.Photos.First(p => p.Id == meeting.PhotosId);
-
             var meetingViewModel = new MeetingViewModel
             {
                 Id = id,
