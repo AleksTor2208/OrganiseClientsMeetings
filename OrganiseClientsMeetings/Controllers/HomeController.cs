@@ -71,11 +71,37 @@ namespace OrganiseClientsMeetings.Controllers
                 return Redirect("AddMeeting");  
             
             var clientId = AddClient(viewModel.Name);
-            var photosId = AddPhotos(files);
+            var photosList = GetPhotosList(files);
+            int[] photoIdArray = new int[photosList.Count];
 
+            for (int i = 0; i < photosList.Count; i++)
+            {
+                photoIdArray[i] = AddPhotoAndGetId(photosList[i]);
+            }
             //future functionality: rescale this image
             //var resizedImage = resizeImage(Image.FromStream(HttpPostedFileBase.InputStream, true, true), new Size(50, 50));
+            var meetingId = SaveMeetingAndGetId(viewModel, _context, clientId);
 
+            for (int i = 0; i < photoIdArray.Length; i++)
+            {
+                AddPhotoListInstance(_context, meetingId, photoIdArray[i]);
+            }
+            return Redirect("Index");
+        }
+
+        private void AddPhotoListInstance(ApplicationDbContext context, int meetingId, int photoId)
+        {
+            var photoListInstance = new PhotosList
+            {
+                PhotoId = photoId,
+                MeetingId = meetingId
+            };
+            context.PhotosList.Add(photoListInstance);
+            context.SaveChanges();
+        }
+
+        private int SaveMeetingAndGetId(MeetingViewModel viewModel, ApplicationDbContext context, int clientId)
+        {
             var meeting = new Meeting
             {
                 Date = viewModel.Date.ToString(),
@@ -85,11 +111,21 @@ namespace OrganiseClientsMeetings.Controllers
                 ClientId = clientId,
                 Comment = viewModel?.Comment,
                 Address = viewModel.Address,
-                PhotosId = photosId
-            };         
-            _context.Meetings.Add(meeting);           
+            };
+            _context.Meetings.Add(meeting);
             _context.SaveChanges();
-            return Redirect("Index");
+            return meeting.Id;
+        }
+
+        private int AddPhotoAndGetId(string imageAsBase64)
+        {
+            var photo = new Photo
+            {
+                Base64 = imageAsBase64
+            };
+            _context.ClientPhotos.Add(photo);
+            _context.SaveChanges();
+            return photo.PhotoId;
         }
 
         private bool IsDurationLT5Min(DateTime startTime, DateTime endTime)
@@ -115,7 +151,7 @@ namespace OrganiseClientsMeetings.Controllers
                 && viewModel.EndTime != null && viewModel.Payment != null && viewModel.Address != null;
         }
 
-        private int AddPhotos(IEnumerable<HttpPostedFileBase> files)
+        private List<string> GetPhotosList(IEnumerable<HttpPostedFileBase> files)
         {
             var imageList = new List<string>();
             foreach (var image in files)
@@ -125,11 +161,13 @@ namespace OrganiseClientsMeetings.Controllers
                 image.InputStream.Read(imageByteArray, 0, image.ContentLength);
                 var base64String = Convert.ToBase64String(imageByteArray);
                 imageList.Add(base64String);
-            }            
-            var photos = Photos.ValidateAndAssing(imageList);            
-            _context.Photos.Add(photos);
-            _context.SaveChanges();
-            return photos.Id;
+            }
+            return imageList;
+
+            //var photos = Photos.ValidateAndAssing(imageList);
+            //_context.Photos.Add(photos);
+            //_context.SaveChanges();
+            //return photos.Id;
         }
 
         //private Image resizeImage(HttpPostedFileBase image, Size size)
