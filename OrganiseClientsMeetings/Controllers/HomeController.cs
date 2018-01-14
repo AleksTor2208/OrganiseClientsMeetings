@@ -27,29 +27,47 @@ namespace OrganiseClientsMeetings.Controllers
             var meetingData = _context.Meetings.Select(m => m).ToArray();
             
             List<MeetingViewModel> data = new List<MeetingViewModel>();
-            foreach (var item in meetingData)
+            foreach (var meeting in meetingData)
             {
-                var photos = _context.Photos.Where(p => p.Id == item.PhotosId).ToList()[0];
-                var photosList = new List<string> { photos.Photo1,
-                    photos.Photo2, photos.Photo3,
-                    photos.Photo4, photos.Photo5 };
+                //    var photos = _context.Photos.Where(p => p.Id == item.PhotosId).ToList()[0];
+                //    var photosList = new List<string> { photos.Photo1,
+                //        photos.Photo2, photos.Photo3,
+                //        photos.Photo4, photos.Photo5 };
+
+                var photosList = GetPhotosofCurrMeeting(meeting.Id, _context);
+
                 var viewModel = new MeetingViewModel()
                 {
-                    Id = item.Id,
-                    Name = _context.Clients.Where(c => c.Id == item.ClientId).First().Name,
-                    Date = item.Date,
-                    StartTime = item.StartTime,
-                    EndTime = item.EndTime,
-                    Payment = item.Payment,
-                    Address = item.Address,
-                    Comment = item.Comment,
+                    Id = meeting.Id,
+                    Name = _context.Clients.Where(c => c.Id == meeting.ClientId).First().Name,
+                    Date = meeting.Date,
+                    StartTime = meeting.StartTime,
+                    EndTime = meeting.EndTime,
+                    Payment = meeting.Payment,
+                    Address = meeting.Address,
+                    Comment = meeting.Comment,
                     Photos = photosList
                 };
                 data.Add(viewModel);
                 //ViewBag.Image = Image.FromStream(new MemoryStream(Convert.FromBase64String(item.Image)));
             }
             return View(data);
-        }       
+        }
+
+        private List<string> GetPhotosofCurrMeeting(int meetingId, ApplicationDbContext context)
+        {
+            var photoIdList = context.PhotosList.Where(p => p.MeetingId == meetingId);
+
+            var photoList = new List<string>();
+            foreach (var item in photoIdList)
+            {
+                var PhotoInst = context.ClientPhotos.SingleOrDefault(p => p.PhotoId == item.PhotoId);
+                photoList.Add(PhotoInst.Base64);
+            }
+            return photoList;
+        }
+
+       
 
         public ActionResult AddMeeting()
         {
