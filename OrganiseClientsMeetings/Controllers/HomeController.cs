@@ -7,7 +7,6 @@ using OrganiseClientsMeetings.DataValidator;
 using OrganiseClientsMeetings.Models;
 using OrganiseClientsMeetings.ViewModel;
 
-
 namespace OrganiseClientsMeetings.Controllers
 {
     public class HomeController : Controller
@@ -46,7 +45,6 @@ namespace OrganiseClientsMeetings.Controllers
 
         public ActionResult AddMeeting()
         {
-            ViewBag.Message = "Your application description page.";
             return View();
         }
 
@@ -57,21 +55,9 @@ namespace OrganiseClientsMeetings.Controllers
                 return Redirect("AddMeeting");
            
             var clientId = ClientController.AddClient(viewModel.Name, _context);
-            var photosList = PhotoController.GetPhotosList(files);
-            int[] photoIdArray = new int[photosList.Count];
-
-            for (int i = 0; i < photosList.Count; i++)
-            {
-                photoIdArray[i] = PhotoController.AddPhotoAndGetId(photosList[i], _context);
-            }
-            //future functionality: rescale this image
-            //var resizedImage = resizeImage(Image.FromStream(HttpPostedFileBase.InputStream, true, true), new Size(50, 50));
+            var photoIdArray = PhotoController.SaveAndGetId(files, _context);
             var meetingId = MeetingController.SaveMeetingAndGetId(viewModel, _context, clientId);
-
-            for (int i = 0; i < photoIdArray.Length; i++)
-            {
-                PhotoController.AddPhotoListInstance(_context, meetingId, photoIdArray[i]);
-            }
+            PhotoController.SavePhotoListInstance(_context, meetingId, photoIdArray);
             return Redirect("Index");
         }
 
