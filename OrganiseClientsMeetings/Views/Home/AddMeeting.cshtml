@@ -49,41 +49,45 @@
             @Html.LabelFor(m => m.Comment)
             @Html.TextBoxFor(m => m.Comment, new { @class = "form-control" })
         </div>
-        <div id="photo_1" >
-            <div><p id="upload_1">Upload new image: </p><input type="file" name="files" id="file1" /></div>            
-            <p class="add_more_photo" id="add_1" onclick="MakeNextVisible(this)">Add more photos</p>
+        <h4>Upload new images:</h4>
+        <div id="photo">
+            <input type="file" name="files" />
+            <input type="button" onclick="AddMorePhotos()" value="Add" />
         </div>
-        <div id="photo_2" >
-            <div><p id="upload_2">Upload new image: </p><input type="file" name="files" id="file2" /></div>
-            <p class="add_more_photo" id="add_2" onclick="MakeNextVisible(this)">Add more photos</p>
-        </div>
-        <div id="photo_3">
-            <div><p id="upload_3">Upload new image: </p><input type="file" name="files" id="file3" /></div>
-            <p class="add_more_photo" id="add_3" onclick="MakeNextVisible(this)">Add more photos</p>
-        </div>
-        <div id="photo_4" onclick="MakeNextVisible(this)">
-            <div><p id="upload_4">Upload new image: </p><input type="file" name="files" id="file4" /></div>
-            <p class="add_more_photo" id="add_4" onclick="MakeNextVisible(this)">Add more photos</p>
-        </div>
-        <div id="photo_5" onclick="MakeNextVisible(this)">
-            <div><p id="upload_5">Upload new image: </p> <input type="file" name="files" id="file5" /></div>            
-        </div>
+        @*<div id="photo" >
+                <div><p id="upload_1">Upload new image: </p><input type="file" name="files" id="file1" /></div>
+                <p class="add_more_photo" id="add_1" onclick="MakeNextVisible(this)">Add more photos</p>
+            </div>*@
         <button type="submit" class="btn btn-primary">Save</button>
-     }
-
+    }
     <script>
         //document.getElementsByClassName("additional-photos").onclick = function () { MakeNextVisible(this) };
+
+        function AddMorePhotos() {
+            var div = document.createElement('DIV');
+            div.innerHTML = GetPhotosDynamically("");
+            document.getElementById("photo").appendChild(div);
+        }
+
+        function RemovePhotos(div) {
+            document.getElementById("photo").removeChild(div.parentNode.parentNode);
+        }
+
+        function GetPhotosDynamically(value) {
+            return '<div id="photo"><input type="file" name="files" /><input type="button" onclick="RemovePhotos(this)" value="Remove" /></div>';
+        }
+
         $(function () {
             $("#check_availability").click(function (e) {
                 var form = $("#meetingForm").serialize();
-                //console.log(form);                         
+                //console.log(form);
             $.ajax({
                 url: "@Url.Action("CheckTimeAvailability", "Home")",
                 type: "GET",
                 //dataType: "text/html",
                 contentType: 'application/json',
                 data: form,
-                success: function (resp, status, xhr) {                           
+                success: function (resp, status, xhr) {
                     var responseResult = xhr.responseText;
                     if (responseResult == "False") {
                         SendNoAvailableInfo();
@@ -92,15 +96,15 @@
                         SendIsAvailaleInfo();
                     }
                 },
-                error: function (textStatus) {                    
+                error: function (textStatus) {
                     console.log(textStatus);
                 }
-                });                 
+                });
             });
         })
 
         function MakeNextVisible(element)
-        {            
+        {
             var idNumber = parseInt(element.id.slice(-1)) + 1;
             if (idNumber >= 5) {  idNumber = 5}
             var nextId = "photo_" + idNumber;
@@ -109,13 +113,13 @@
             var uploadId = "upload_" + previousId;
             document.getElementById(nextId).style.display = "block";
             document.getElementById(uploadId).style.display = "none";
-            document.getElementById(addId).style.display = "none";            
+            document.getElementById(addId).style.display = "none";
         }
 
         function SendNoAvailableInfo()
         {
             document.getElementById("date_is_available_info").style.display = "none";
-            document.getElementById("date_not_available_info").style.display = "block";               
+            document.getElementById("date_not_available_info").style.display = "block";
         }
 
         function SendIsAvailaleInfo()
