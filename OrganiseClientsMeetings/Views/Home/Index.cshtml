@@ -21,16 +21,16 @@
                         var currDate = DateTime.Parse(item.Date);
                         var monthAndYear = currDate.Month.ToString("00") + "-" + currDate.Year.ToString();
                     }
-                    <div class="dayofmonth">@currDate.Day)</div>
+                    <div class="dayofmonth">@currDate.Day</div>
                     <div class="dayofweek">@currDate.DayOfWeek</div>
                     <div class="shortdate text-muted">@monthAndYear</div>
                 </td>
                 <td class="agenda-time">
-                    @{ 
-                        var timeBuilder = new System.Text.StringBuilder(); 
-                     }
-                    @timeBuilder.Append($"{item.StartTime} - {item.EndTime}")
-                    <p>@Html.Raw(timeBuilder.ToString())</p>                    
+                    @{
+                         var timeSpan = $"{item.StartTime} - {item.EndTime}";
+                    }
+
+                    <p>@timeSpan</p>
                 </td>
                 <td class="agenda-events">
                     <div class="agenda-event">
