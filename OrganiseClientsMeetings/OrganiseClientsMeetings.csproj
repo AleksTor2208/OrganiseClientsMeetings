@@ -269,6 +269,10 @@
     <Compile Include="ViewModel\MeetingViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-OrganiseClientsMeetings-20170818014905.mdf" />
+    <Content Include="App_Data\aspnet-OrganiseClientsMeetings-20170818014905_log.ldf">
+      <DependentUpon>aspnet-OrganiseClientsMeetings-20170818014905.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -328,7 +332,6 @@
     <Content Include="Views\Home\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Views\Meeting\" />
   </ItemGroup>
   <ItemGroup>
