@@ -29,7 +29,7 @@ namespace OrganiseClientsMeetings.Models
         public string Photo4 { get; set; }
         public string Photo5 { get; set; }       
 
-        internal static Photos ValidateAndAssing(List<string> imageList)
+        public static Photos ValidateAndAssing(List<string> imageList)
         {
             var photo1 = imageList.Count >= 1 ? imageList[0] : null;
             var photo2 = imageList.Count >= 2 ? imageList[1] : null;
