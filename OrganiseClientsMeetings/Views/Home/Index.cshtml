@@ -17,16 +17,20 @@
             <!-- Single event in a single day -->
               <tr>
                 <td class="agenda-date" class="active" rowspan="1">
-                    <div class="dayofmonth">@item.Date.Substring(item.Date.Length - 2)</div>
-                    <div class="dayofweek">DayOfWeek</div>
-                    <div class="shortdate text-muted">@item.Date.Substring(0, item.Date.Length - 3)</div>
+                    @{ 
+                        var currDate = DateTime.Parse(item.Date);
+                        var monthAndYear = currDate.Month.ToString("00") + "-" + currDate.Year.ToString();
+                    }
+                    <div class="dayofmonth">@currDate.Day</div>
+                    <div class="dayofweek">@currDate.DayOfWeek</div>
+                    <div class="shortdate text-muted">@monthAndYear</div>
                 </td>
                 <td class="agenda-time">
-                    @{ 
-                        var timeBuilder = new System.Text.StringBuilder(); 
-                     }
-                    @timeBuilder.Append($"{item.StartTime} - {item.EndTime}")
-                    <p>@Html.Raw(timeBuilder.ToString())</p>                    
+                    @{
+                         var timeSpan = $"{item.StartTime} - {item.EndTime}";
+                    }
+
+                    <p>@timeSpan</p>
                 </td>
                 <td class="agenda-events">
                     <div class="agenda-event">
